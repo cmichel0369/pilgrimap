@@ -19,7 +19,7 @@ db.sqlite3
 *.pot
 *.pyc
 
-# Static files
+# Static & collected static files
 /staticfiles/
 staticfiles/
 
@@ -30,7 +30,7 @@ staticfiles/
 # macOS
 .DS_Store
 
-# IDEs
+# IDEs (VSCode / PyCharm / autres)
 .vscode/
 .idea/
 *.swp
@@ -46,7 +46,10 @@ htmlcov/
 *.tmp
 *.orig
 
-# Node.js (au cas où)
+# Node.js (si jamais tu ajoutes du front)
 node_modules/
 npm-debug.log
 yarn-error.log
+
+# fichiers de migrations non suivis (si jamais tu en génères temporairement)
+*.py,cover
