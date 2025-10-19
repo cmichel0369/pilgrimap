@@ -1,0 +1,9 @@
+<!-- templates/hostel_detail.html -->
+{% extends 'base.html' %}
+{% block title %}{{ hostel.name }}{% endblock %}
+{% block content %}
+    <h2>{{ hostel.name }}</h2>
+    <p>{{ hostel.description }}</p>
+    <p><strong>Adresse :</strong> {{ hostel.address }}</p>
+    <a href="{% url 'add_reservation' hostel.id %}" class="btn btn-success">Réserver</a>
+{% endblock %}

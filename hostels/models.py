@@ -1,27 +1,40 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# Fonction pour récupérer une chambre par défaut (si elle existe)
+def get_default_room():
+    from .models import Room  # import local pour éviter une erreur de chargement circulaire
+    return Room.objects.first().pk if Room.objects.exists() else None
+
+
 class Hostel(models.Model):
     name = models.CharField(max_length=100)
-    address = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
+    address = models.TextField()
+    description = models.TextField()
+    price_per_night = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=30.00  # ✅ valeur par défaut
+    )
 
     def __str__(self):
         return self.name
 
+
 class Room(models.Model):
-    hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE, related_name='rooms')
-    name = models.CharField(max_length=100)
-    capacity = models.IntegerField()
+    hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
+    number = models.CharField(max_length=10, default="A1")  # ✅ valeur par défaut
+    capacity = models.IntegerField(default=1)  # ✅ valeur par défaut
 
     def __str__(self):
-        return f"{self.name} - {self.hostel.name}"
+        return f"Room {self.number} - {self.hostel.name}"
+
 
 class Reservation(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='reservations')
-    guest = models.ForeignKey(User, on_delete=models.CASCADE)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, default=get_default_room)
+    check_in = models.DateField()
+    check_out = models.DateField()
 
     def __str__(self):
-        return f"{self.guest.username} - {self.room.name} ({self.start_date} to {self.end_date})"
+        return f"{self.user.username} - {self.room}"
