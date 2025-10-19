@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Test MetaMask</title>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      if (typeof window.ethereum !== 'undefined') {
+        console.log('✅ MetaMask est détecté.');
+        ethereum.request({ method: 'eth_requestAccounts' })
+          .then(accounts => {
+            console.log('🟢 Adresse récupérée :', accounts[0]);
+          })
+          .catch(err => {
+            console.error('❌ Erreur MetaMask :', err);
+          });
+      } else {
+        console.log('⛔️ MetaMask non détecté');
+      }
+    });
+  </script>
+</head>
+<body>
+  <h1>Test MetaMask</h1>
+</body>
+</html>

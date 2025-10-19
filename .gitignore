@@ -1,13 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
 # Environnement virtuel
 venv/
-__pycache__/
+ENV/
+env/
+.venv/
+.ENV/
+
+# Logs
+*.log
+
+# Django
+db.sqlite3
+/media/
+*.pot
 *.pyc
 
-# Fichiers Django
-db.sqlite3
+# Static files
+/staticfiles/
+staticfiles/
 
-# Fichiers VS Code
+# Fichiers secrets
+.env
+*.env
+
+# macOS
+.DS_Store
+
+# IDEs
 .vscode/
+.idea/
+*.swp
+*.swo
 
-# Autres
-*.log
+# Tests
+coverage.xml
+htmlcov/
+.tox/
+
+# Fichiers temporaires
+*.bak
+*.tmp
+*.orig
+
+# Node.js (au cas où)
+node_modules/
+npm-debug.log
+yarn-error.log

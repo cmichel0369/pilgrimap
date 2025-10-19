@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Fonction pour récupérer une chambre par défaut (si elle existe)
 def get_default_room():
-    from .models import Room  # import local pour éviter une erreur de chargement circulaire
+    from .models import Room  # import local pour éviter une erreur circulaire
     return Room.objects.first().pk if Room.objects.exists() else None
 
 
@@ -38,3 +38,12 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.room}"
+
+
+# ✅ Classe déplacée en dehors de Reservation (au bon niveau)
+class WalletProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='walletprofile_hostel')
+    wallet_address = models.CharField(max_length=42, unique=True)
+
+    def __str__(self):
+        return self.wallet_address

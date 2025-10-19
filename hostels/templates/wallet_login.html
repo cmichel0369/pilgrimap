@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion MetaMask</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+</head>
+<body>
+    <h1>Connexion via MetaMask 🔐</h1>
+
+    <button id="connectButton">Se connecter avec MetaMask</button>
+    <p id="status"></p>
+
+    <script>
+        document.getElementById('connectButton').addEventListener('click', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const walletAddress = accounts[0];
+                    document.getElementById('status').innerText = "✅ Wallet connecté : " + walletAddress;
+
+                    const response = await fetch('/wallet-login/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ wallet_address: walletAddress })
+                    });
+
+                    const data = await response.json();
+                    document.getElementById('status').innerText = data.message;
+
+                } catch (err) {
+                    document.getElementById('status').innerText = "❌ Erreur MetaMask : " + err.message;
+                }
+            } else {
+                alert("⛔️ MetaMask non détecté.");
+            }
+        });
+    </script>
+</body>
+</html>

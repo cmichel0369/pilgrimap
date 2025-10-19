@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hostels',  # Ton app principale
+    'accounts'
 ]
 
 # === MIDDLEWARE ===
