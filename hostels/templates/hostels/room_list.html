@@ -1,14 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-4">
-  <h2>All Rooms</h2>
-  <a href="{% url 'add_room' %}" class="btn btn-success mb-3">Add Room</a>
-  <ul>
+  <h2>Liste des chambres disponibles</h2>
+  <div class="row">
     {% for room in rooms %}
-      <li>{{ room.name }} ({{ room.hostel.name }}) — ${{ room.price }}</li>
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        {% if room.photo %}
+        <img src="{{ room.photo.url }}" class="card-img-top" alt="{{ room.name }}">
+        {% endif %}
+        <div class="card-body">
+          <h5>{{ room.name }}</h5>
+          <p><strong>Auberge :</strong> {{ room.hostel.name }}</p>
+          <p><strong>Prix :</strong> {{ room.price_per_night }} €</p>
+          {% if room.is_available %}
+          <a href="{% url 'add_booking' room.id %}" class="btn btn-primary btn-sm">Réserver</a>
+          {% else %}
+          <span class="badge bg-danger">Indisponible</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
     {% empty %}
-      <li>No rooms yet.</li>
+      <p>Aucune chambre disponible pour le moment.</p>
     {% endfor %}
-  </ul>
+  </div>
 </div>
 {% endblock %}

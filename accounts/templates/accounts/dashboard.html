@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>👋 Bienvenue, {{ user.username }} !</h2>
+    <p>Voici ton tableau de bord personnel.</p>
+    <ul>
+        <li><a href="{% url 'list_hostels' %}">Voir mes hostels</a></li>
+        <li><a href="{% url 'list_rooms' %}">Voir mes chambres</a></li>
+    </ul>
+</div>
+{% endblock %}

@@ -1,36 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container mt-4">
-    <div class="d-flex justify-content-between mb-3">
-        <h2>Hostels List</h2>
-        <a href="{% url 'add_hostel' %}" class="btn btn-success">+ Add Hostel</a>
-    </div>
-
-    {% if hostels %}
-    <div class="row">
-        {% for hostel in hostels %}
-        <div class="col-md-4 mb-3">
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">{{ hostel.name }}</h5>
-                    <p>{{ hostel.description|truncatewords:15 }}</p>
-                    <p><strong>City:</strong> {{ hostel.city }}</p>
-
-                    <div class="d-flex justify-content-between">
-                        <a href="{% url 'detail_hostel' hostel.id %}" class="btn btn-info btn-sm">Details</a>
-                        <a href="{% url 'delete_hostel' hostel.id %}"
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('Delete this hostel and its rooms?')">
-                           Delete
-                        </a>
-                    </div>
-                </div>
-            </div>
+  <h2 class="mb-3">Liste des auberges</h2>
+  <a href="{% url 'add_hostel' %}" class="btn btn-success mb-3">Ajouter une auberge</a>
+  <div class="row">
+    {% for hostel in hostels %}
+    <div class="col-md-4">
+      <div class="card mb-3">
+        {% if hostel.photo %}
+        <img src="{{ hostel.photo.url }}" class="card-img-top" alt="{{ hostel.name }}">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ hostel.name }}</h5>
+          <p class="card-text">{{ hostel.city }}</p>
+          <a href="{% url 'hostel_detail' hostel.id %}" class="btn btn-info btn-sm">Détails</a>
         </div>
-        {% endfor %}
+      </div>
     </div>
-    {% else %}
-        <p>No hostels available yet.</p>
-    {% endif %}
+    {% empty %}
+    <p>Aucune auberge disponible.</p>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}

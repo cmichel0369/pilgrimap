@@ -2,23 +2,38 @@
 {% block content %}
 <div class="container mt-4">
   <h2>{{ hostel.name }}</h2>
-  <p><strong>Address:</strong> {{ hostel.address }}, {{ hostel.city }}</p>
+  {% if hostel.photo %}
+    <img src="{{ hostel.photo.url }}" alt="{{ hostel.name }}" class="img-fluid mb-3">
+  {% endif %}
   <p>{{ hostel.description }}</p>
+  <p><strong>Adresse :</strong> {{ hostel.address }} ({{ hostel.city }})</p>
 
-  <h4>Rooms</h4>
-  <ul>
+  <hr>
+  <h4>Chambres</h4>
+  <a href="{% url 'add_room' hostel.id %}" class="btn btn-success btn-sm mb-3">Ajouter une chambre</a>
+
+  <div class="row">
     {% for room in rooms %}
-      <li>
-        {{ room.name }} — {{ room.capacity }} people — ${{ room.price }}
-        {% if room.is_available %}
-          <a href="{% url 'book_room' room.id %}" class="btn btn-sm btn-primary">Book</a>
-        {% else %}
-          <span class="text-muted">Unavailable</span>
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        {% if room.photo %}
+          <img src="{{ room.photo.url }}" class="card-img-top" alt="{{ room.name }}">
         {% endif %}
-      </li>
+        <div class="card-body">
+          <h5>{{ room.name }}</h5>
+          <p>{{ room.description }}</p>
+          <p><strong>Prix :</strong> {{ room.price_per_night }} €/nuit</p>
+          {% if room.is_available %}
+            <a href="{% url 'add_booking' room.id %}" class="btn btn-primary btn-sm">Réserver</a>
+          {% else %}
+            <span class="badge bg-danger">Indisponible</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
     {% empty %}
-      <li>No rooms available.</li>
+      <p>Aucune chambre pour cette auberge.</p>
     {% endfor %}
-  </ul>
+  </div>
 </div>
 {% endblock %}

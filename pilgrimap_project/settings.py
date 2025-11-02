@@ -1,14 +1,15 @@
 from pathlib import Path
+import os
 
-# Chemin de base du projet
+# --- Chemins de base ---
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Sécurité
-SECRET_KEY = 'django-insecure-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+# --- Paramètres généraux ---
+SECRET_KEY = 'django-insecure-votre_cle_secrete_ici'
 DEBUG = True
 ALLOWED_HOSTS = []
 
-# Applications Django + apps du projet
+# --- Applications installées ---
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -16,12 +17,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # --- Apps du projet ---
     'hostels',
     'accounts',
 ]
 
-
-# Middleware
+# --- Middlewares ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -32,14 +34,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# URLs
+# --- Configuration des URLs principales ---
 ROOT_URLCONF = 'pilgrimap_project.urls'
 
-# Templates
+# --- Templates ---
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # ✅ dossier global des templates
+        'DIRS': [BASE_DIR / 'templates'],  # Dossier global pour les templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -52,10 +54,10 @@ TEMPLATES = [
     },
 ]
 
-
+# --- WSGI ---
 WSGI_APPLICATION = 'pilgrimap_project.wsgi.application'
 
-# Base de données
+# --- Base de données ---
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -63,46 +65,24 @@ DATABASES = {
     }
 }
 
-# Validation des mots de passe
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        'OPTIONS': {'min_length': 8},
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-# Paramètres linguistiques
-LANGUAGE_CODE = 'fr'
-TIME_ZONE = 'Europe/Paris'
-USE_I18N = True
-USE_L10N = True
-USE_TZ = True
-
-# Fichiers statiques
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
-
-# Fichiers médias (images, uploads…)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-# Authentification
+# --- Authentification ---
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 
+# --- Langue et fuseau horaire ---
+LANGUAGE_CODE = 'fr'
+TIME_ZONE = 'Europe/Paris'
+USE_I18N = True
+USE_TZ = True
 
-# Clé de hachage par défaut pour les champs AutoField
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# --- Fichiers statiques ---
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
+# --- Fichiers médias (images uploadées) ---
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# --- Sécurité ---
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
