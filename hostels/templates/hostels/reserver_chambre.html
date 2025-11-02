@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Réserver la chambre {{ room.nom }}</h2>
+    <p>Auberge : {{ room.hostel.nom }}</p>
+    <p>Prix : {{ room.prix_par_nuit }} CHF / nuit</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="id_date_debut">Date de début :</label>
+            {{ form.date_debut }}
+        </div>
+        <div class="form-group mb-3">
+            <label for="id_date_fin">Date de fin :</label>
+            {{ form.date_fin }}
+        </div>
+        <button type="submit" class="btn btn-primary">Réserver</button>
+    </form>
+</div>
+{% endblock %}

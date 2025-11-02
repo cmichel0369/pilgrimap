@@ -1,49 +1,33 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Fonction pour récupérer une chambre par défaut (si elle existe)
-def get_default_room():
-    from .models import Room  # import local pour éviter une erreur circulaire
-    return Room.objects.first().pk if Room.objects.exists() else None
-
-
 class Hostel(models.Model):
-    name = models.CharField(max_length=100)
-    address = models.TextField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="hostels")
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
     description = models.TextField()
-    price_per_night = models.DecimalField(
-        max_digits=6,
-        decimal_places=2,
-        default=30.00  # ✅ valeur par défaut
-    )
+    image = models.ImageField(upload_to='hostels/', blank=True, null=True)
 
     def __str__(self):
         return self.name
 
 
 class Room(models.Model):
-    hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE)
-    number = models.CharField(max_length=10, default="A1")  # ✅ valeur par défaut
-    capacity = models.IntegerField(default=1)  # ✅ valeur par défaut
+    hostel = models.ForeignKey(Hostel, on_delete=models.CASCADE, related_name='rooms')
+    name = models.CharField(max_length=200)
+    capacity = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    is_available = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"Room {self.number} - {self.hostel.name}"
+        return f"{self.name} - {self.hostel.name}"
 
 
-class Reservation(models.Model):
+class Booking(models.Model):
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, related_name='bookings')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, default=get_default_room)
-    check_in = models.DateField()
-    check_out = models.DateField()
+    booked_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.room}"
-
-
-# ✅ Classe déplacée en dehors de Reservation (au bon niveau)
-class WalletProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='walletprofile_hostel')
-    wallet_address = models.CharField(max_length=42, unique=True)
-
-    def __str__(self):
-        return self.wallet_address
+        return f"{self.user.username} booked {self.room.name}"

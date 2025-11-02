@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h1>Welcome to PilgrimMap</h1>
+  <p>Find and book hostels on your journey.</p>
+  <a href="{% url 'list_hostels' %}" class="btn btn-primary">View Hostels</a>
+</div>
+{% endblock %}

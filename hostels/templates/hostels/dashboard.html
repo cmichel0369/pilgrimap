@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Your Bookings</h2>
+  <ul>
+    {% for booking in bookings %}
+      <li>{{ booking.room.name }} at {{ booking.room.hostel.name }} — booked on {{ booking.booked_at }}</li>
+    {% empty %}
+      <li>You have no bookings yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

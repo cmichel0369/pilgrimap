@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Test MetaMask</title>
+</head>
+<body>
+  <h1>Connexion MetaMask</h1>
+  <button onclick="connect()">Se connecter</button>
+  <p id="status"></p>
+
+  <script>
+    async function connect() {
+      const status = document.getElementById('status');
+      if (typeof window.ethereum !== 'undefined') {
+        status.innerText = '✅ MetaMask détecté';
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          status.innerText = '🟢 Connecté : ' + accounts[0];
+        } catch (err) {
+          status.innerText = '❌ Erreur : ' + err.message;
+        }
+      } else {
+        status.innerText = '⛔️ MetaMask non détecté';
+      }
+    }
+  </script>
+</body>
+</html>

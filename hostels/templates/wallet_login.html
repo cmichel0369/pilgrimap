@@ -1,42 +1,67 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Connexion MetaMask</title>
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Connexion MetaMask</title>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 </head>
 <body>
-    <h1>Connexion via MetaMask 🔐</h1>
+  <h1>Connexion via MetaMask 🔐</h1>
+  <button id="connectButton">Se connecter avec MetaMask</button>
+  <p id="status"></p>
 
-    <button id="connectButton">Se connecter avec MetaMask</button>
-    <p id="status"></p>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const button = document.getElementById('connectButton');
+      const status = document.getElementById('status');
 
-    <script>
-        document.getElementById('connectButton').addEventListener('click', async () => {
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    const walletAddress = accounts[0];
-                    document.getElementById('status').innerText = "✅ Wallet connecté : " + walletAddress;
+      button.addEventListener('click', async () => {
+        console.log("🔘 Bouton cliqué !");
+        if (typeof window.ethereum !== 'undefined') {
+          console.log("✅ MetaMask détecté !");
+          try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const walletAddress = accounts[0];
+            console.log("🔗 Wallet :", walletAddress);
+            status.innerText = "✅ Connecté : " + walletAddress;
 
-                    const response = await fetch('/wallet-login/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ wallet_address: walletAddress })
-                    });
+            // Envoi vers Django
+            const response = await fetch('/wallet-login/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+              },
+              body: JSON.stringify({ wallet_address: walletAddress })
+            });
 
-                    const data = await response.json();
-                    document.getElementById('status').innerText = data.message;
+            const data = await response.json();
+            console.log(data);
+            status.innerText = data.message || '✅ Connecté !';
+          } catch (error) {
+            console.error("❌ Erreur MetaMask :", error);
+            status.innerText = "❌ Erreur : " + error.message;
+          }
+        } else {
+          alert("⛔️ MetaMask non détecté !");
+        }
+      });
 
-                } catch (err) {
-                    document.getElementById('status').innerText = "❌ Erreur MetaMask : " + err.message;
-                }
-            } else {
-                alert("⛔️ MetaMask non détecté.");
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
             }
-        });
-    </script>
+          }
+        }
+        return cookieValue;
+      }
+    });
+  </script>
 </body>
 </html>

@@ -1,15 +1,14 @@
-import os
 from pathlib import Path
 
-# === BASE DIRECTORY ===
+# Chemin de base du projet
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# === SECURITY SETTINGS ===
-SECRET_KEY = 'your-secret-key-here'
+# Sécurité
+SECRET_KEY = 'django-insecure-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 DEBUG = True
 ALLOWED_HOSTS = []
 
-# === INSTALLED APPS ===
+# Applications Django + apps du projet
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -17,11 +16,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'hostels',  # Ton app principale
-    'accounts'
+    'hostels',
+    'accounts',
 ]
 
-# === MIDDLEWARE ===
+
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -32,14 +32,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# URLs
 ROOT_URLCONF = 'pilgrimap_project.urls'
 
-# === TEMPLATES SETTINGS ===
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Chemin global
-        'APP_DIRS': True,  # Active les templates dans hostels/templates/
+        'DIRS': [BASE_DIR / 'templates'],  # ✅ dossier global des templates
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -51,9 +52,10 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'pilgrimap_project.wsgi.application'
 
-# === DATABASE ===
+# Base de données
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -61,13 +63,14 @@ DATABASES = {
     }
 }
 
-# === PASSWORD VALIDATION ===
+# Validation des mots de passe
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {'min_length': 8},
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -77,25 +80,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# === INTERNATIONALIZATION ===
+# Paramètres linguistiques
 LANGUAGE_CODE = 'fr'
 TIME_ZONE = 'Europe/Paris'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# === STATIC FILES ===
+# Fichiers statiques
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-# === MEDIA FILES ===
+# Fichiers médias (images, uploads…)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# === DEFAULT PRIMARY KEY FIELD TYPE ===
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# === LOGIN SETTINGS ===
+# Authentification
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
-LOGIN_URL = 'login'
+LOGIN_URL = '/accounts/login/'
+
+
+# Clé de hachage par défaut pour les champs AutoField
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+

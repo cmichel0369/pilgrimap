@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">👋 Hello {{ user.username }}!</h2>
+
+    <!-- My Hostels Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">🏕️ My Hostels</h5>
+        </div>
+        <div class="card-body">
+            {% if user_hostels %}
+                <div class="list-group">
+                    {% for hostel in user_hostels %}
+                        <a href="{% url 'detail_hostel' hostel.id %}" class="list-group-item list-group-item-action">
+                            <strong>{{ hostel.name }}</strong> — {{ hostel.city }}
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-muted">You haven’t added any hostels yet.</p>
+            {% endif %}
+
+            <a href="{% url 'add_hostel' %}" class="btn btn-primary mt-3">➕ Add a hostel</a>
+        </div>
+    </div>
+
+    <!-- My Bookings Section -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">📅 My Bookings</h5>
+        </div>
+        <div class="card-body">
+            {% if user_bookings %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Room</th>
+                            <th>Hostel</th>
+                            <th>From</th>
+                            <th>To</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in user_bookings %}
+                        <tr>
+                            <td>{{ booking.room.name }}</td>
+                            <td>{{ booking.room.hostel.name }}</td>
+                            <td>{{ booking.start_date }}</td>
+                            <td>{{ booking.end_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="text-muted">You don’t have any bookings yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

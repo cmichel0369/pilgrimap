@@ -1,34 +1,27 @@
-<!-- hostels/templates/hostel_list.html -->
-{% load static %}
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des auberges</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-<div class="container py-5">
-    <h1 class="mb-4">Liste des auberges</h1>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>All Hostels</h2>
+  <a href="{% url 'add_hostel' %}" class="btn btn-success mb-3">Add Hostel</a>
 
-    {% if hostels %}
-        <div class="row">
-            {% for hostel in hostels %}
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ hostel.name }}</h5>
-                            <p class="card-text">{{ hostel.description|truncatewords:20 }}</p>
-                            <p class="card-text"><strong>{{ hostel.price_per_night }} € / nuit</strong></p>
-                            <a href="{% url 'hostel_detail' hostel.pk %}" class="btn btn-primary">Voir les détails</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+  {% if hostels %}
+  <div class="row">
+    {% for hostel in hostels %}
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5>{{ hostel.name }}</h5>
+          <p>{{ hostel.city }}</p>
+          <a href="{% url 'detail_hostel' hostel.id %}" class="btn btn-info btn-sm">View</a>
+          <a href="{% url 'delete_hostel' hostel.id %}" class="btn btn-danger btn-sm"
+             onclick="return confirm('Delete this hostel?')">Delete</a>
         </div>
-    {% else %}
-        <p>Aucune auberge trouvée.</p>
-    {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No hostels yet.</p>
+  {% endif %}
 </div>
-</body>
-</html>
+{% endblock %}

@@ -1,8 +1,12 @@
-<!-- templates/home.html -->
+<!-- templates/hostels/home.html -->
 {% extends 'base.html' %}
 {% block title %}Accueil{% endblock %}
+
 {% block content %}
-    <h1>Bienvenue sur PilgrimApp</h1>
-    <p>Votre compagnon de voyage pour réserver vos auberges.</p>
-    <a href="{% url 'hostel_list' %}" class="btn btn-primary">Voir les auberges</a>
+<h1>Bienvenue sur PilgrimApp</h1>
+<ul>
+    <li><a href="{% url 'add_hostel' %}">Ajouter une auberge</a></li>
+    <li><a href="{% url 'ajouter_chambre' %}">Ajouter une chambre</a></li>
+    <li><a href="{% url 'reservation' %}">Faire une réservation</a></li>
+</ul>
 {% endblock %}
