@@ -1,55 +1,27 @@
-# Python
+# Environnements virtuels
+venv/
+.env
+
+# Base de données locale
+db.sqlite3
+
+# Fichiers de migration
+**/migrations/__pycache__/
+**/migrations/*.py[cod]
+**/migrations/
 __pycache__/
 *.py[cod]
-*$py.class
-
-# Environnement virtuel
-venv/
-ENV/
-env/
-.venv/
-.ENV/
-
-# Logs
 *.log
-
-# Django
-db.sqlite3
-/media/
 *.pot
 *.pyc
-
-# Static & collected static files
-/staticfiles/
-staticfiles/
-
-# Fichiers secrets
-.env
-*.env
-
-# macOS
-.DS_Store
-
-# IDEs (VSCode / PyCharm / autres)
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Tests
-coverage.xml
-htmlcov/
-.tox/
-
-# Fichiers temporaires
-*.bak
-*.tmp
+*.pyo
 *.orig
 
-# Node.js (si jamais tu ajoutes du front)
-node_modules/
-npm-debug.log
-yarn-error.log
+# Fichiers médias et statiques générés
+media/
+staticfiles/
 
-# fichiers de migrations non suivis (si jamais tu en génères temporairement)
-*.py,cover
+# VSCode / Mac / autres
+.vscode/
+.DS_Store
+.idea/
